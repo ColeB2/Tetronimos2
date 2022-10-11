@@ -41,6 +41,8 @@ export class Piece {
     private landed: boolean = false;
     private allOrientations: number[][][];
     private pieceMap: Block[][] = [];
+    public xOffset: number = 0;
+    public yOffset: number = 0;
 
     name: string;
     color: string;
@@ -55,19 +57,40 @@ export class Piece {
     }
 
     createPiece() {
-        // this.currentOrientation.forEach((row, r) => {
-        //     this.pieceMap.push(new Array())
-            
-        // })
-
         for (let r = 0; r < this.currentOrientation.length; r++) {
             this.pieceMap.push(new Array())
             for (let c = 0; c < this.currentOrientation[0].length; c++) {
-                const block = new Block(c+5, r+5, 30, this.color, this.currentOrientation[r][c])
+                const block = new Block(c, r, 30, this.color, this.currentOrientation[r][c])
                 this.pieceMap[r].push(block)
 
             }
         }
+    }
+
+    setSpawnOffset(): void {
+        //Sets x/yOffset to spawn piece properly above board.
+        this.xOffset = (7-this.currentOrientation.length)
+        for (let r = this.currentOrientation.length-1; r>= 0; r--) {
+            if (1 in this.currentOrientation[r]) {
+                this.yOffset = r
+                break
+            }
+        }
+    }
+
+    checkSpawnValidity(): boolean {
+        let validSpawn = true;
+        this.currentOrientation.forEach((row, r) => {
+            row.forEach((col, c) => {
+                if (col === 1) {
+                    let x = c + 3
+                    let y = r - this.yOffset
+                    validSpawn = (this.board.openSpace(x, y) ? true : false)
+                }
+
+            })
+        })
+        return validSpawn
     }
 
     spawnPiece() {
