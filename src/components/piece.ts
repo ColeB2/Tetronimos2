@@ -54,13 +54,19 @@ export class Piece {
         this.allOrientations = vitals.pieceMap
         this.currentOrientation = this.allOrientations[this.orientation]
         this.board = boardObject
+        this.setSpawnOffset()
     }
 
     createPiece() {
         for (let r = 0; r < this.currentOrientation.length; r++) {
             this.pieceMap.push(new Array())
             for (let c = 0; c < this.currentOrientation[0].length; c++) {
-                const block = new Block(c, r, 30, this.color, this.currentOrientation[r][c])
+                const block = new Block(
+                    c+this.xOffset,
+                    r-this.yOffset,
+                    30, this.color,
+                    this.currentOrientation[r][c]
+                    )
                 this.pieceMap[r].push(block)
 
             }
@@ -69,9 +75,9 @@ export class Piece {
 
     setSpawnOffset(): void {
         //Sets x/yOffset to spawn piece properly above board.
-        this.xOffset = (7-this.currentOrientation.length)
-        for (let r = this.currentOrientation.length-1; r>= 0; r--) {
-            if (1 in this.currentOrientation[r]) {
+        this.xOffset = (7-this.currentOrientation[0].length)
+        for (let r = 0; r < this.currentOrientation.length; r++) {
+            if (this.currentOrientation[r].includes(1)) {
                 this.yOffset = r
                 break
             }
@@ -81,8 +87,8 @@ export class Piece {
     checkSpawnValidity(): boolean {
         let validSpawn = true;
         this.currentOrientation.forEach((row, r) => {
-            row.forEach((col, c) => {
-                if (col === 1) {
+            row.forEach((cellState, c) => {
+                if (cellState === 1) {
                     let x = c + 3
                     let y = r - this.yOffset
                     validSpawn = (this.board.openSpace(x, y) ? true : false)
@@ -94,8 +100,13 @@ export class Piece {
     }
 
     spawnPiece() {
-        this.createPiece()
-    }
+        let validSpawn = this.checkSpawnValidity()
+        if (validSpawn) {
+            this.createPiece()
+        } else {
+            return false;
+        }
+    } 
 
     // Downward movement
     handleGravity() {
