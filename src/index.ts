@@ -67,6 +67,8 @@ class MainGame {
     this.downMoveFreqency = this.downFrequency
 
     this.initializeGame()
+    this.movementControlEvents()
+    
 
     
   }
@@ -94,6 +96,23 @@ class MainGame {
     this.piece.drawPiece(this.ctx)
   }
 
+  lateralMovementControls(event:any, piece:Piece) {
+    const keyName = event.key;
+    if (keyName === 'a' || keyName === "ArrowLeft") {
+      this.piece.handleMovement(-1)
+      // this.piece.handleMovement(-1)
+    } else if (keyName ==='d' || keyName === "ArrowRight") {
+      this.piece.handleMovement(1)
+    }
+
+  }
+
+  movementControlEvents() {
+    console.log('Adding event listeners')
+    // document.addEventListener('keydown', this.lateralMovementControls)
+    document.addEventListener('keydown', (event) => this.lateralMovementControls(event, this.piece))
+  }
+
   
 
   mainLoop() {
@@ -104,8 +123,8 @@ class MainGame {
         const drawStart = timestamp
         const diff = drawStart - self.startTime
   
-        if (diff > 1000) {
-          console.log('clearly read', timestamp, self.piece)
+        if (diff > 300) {
+          // console.log('clearly read', timestamp, self.piece)
           self.update()
           self.updateVisuals()
           self.startTime = performance.now()
@@ -124,7 +143,7 @@ const board = new Board(10, 20, 'black', [])
 const piece = new Piece(tetronimoPieces[2], board)
 piece.createPiece()
 // piece.spawnPiece()
-console.log(piece)
+// console.log(piece)
 const mg = new MainGame()
 mg.mainLoop()
 

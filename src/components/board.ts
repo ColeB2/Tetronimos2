@@ -40,6 +40,16 @@ export class Board {
         })
     }
 
+    moveRowsDown(rowCleared: number) {
+        for (let r = rowCleared; r<0; r--) {
+            for (let c = 0; c < this.boardState[r].length; c++) {
+                let blockState = this.boardState[r-1][c].state
+                this.boardState[r][c].state = blockState
+            }
+        }
+
+    }
+
     
     openSpace(x:number,y:number) {
         try {
@@ -47,8 +57,9 @@ export class Board {
         } catch (e) {
             return false;
         }
-        
     }
+
+
 
 
 

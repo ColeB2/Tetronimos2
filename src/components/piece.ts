@@ -202,14 +202,14 @@ export class Piece {
     }
 
     checkLateralCollision(direction:number): boolean {
-        console.log('Checking lateral collision')
+        // console.log('Checking lateral collision')
         let movePiece = true;
         this.pieceMap.forEach((row, r) => {
             row.forEach((cell, c) => {
-                console.log(cell.state, direction, this.board.openSpace(cell.x+direction, cell.y), cell.x)
+                // console.log(cell.state, direction, this.board.openSpace(cell.x+direction, cell.y), cell.x)
                 if (cell.state === 1) {
                     if (movePiece && this.board.openSpace(cell.x+direction, cell.y) && 
-                        cell.x > 0 && cell.x < this.board.width) {
+                        cell.x >= 0 && cell.x < this.board.width) {
                             movePiece = true;
                         } else {
                             movePiece = false;
