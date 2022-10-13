@@ -98,21 +98,47 @@ class MainGame {
     this.piece.drawPiece(this.ctx)
   }
 
+
   lateralMovementControls(event:any, piece:Piece) {
     const keyName = event.key;
-    if (keyName === 'a' || keyName === "ArrowLeft") {
-      this.piece.handleMovement(-1)
-      // this.piece.handleMovement(-1)
-    } else if (keyName ==='d' || keyName === "ArrowRight") {
-      this.piece.handleMovement(1)
+    if (performance.now() - this.dtLastLateralMove > this.lateralMoveFrequency) {
+      if (keyName === 'a' || keyName === "ArrowLeft") {
+        this.piece.handleMovement(-1)
+        this.dtLastLateralMove = performance.now()
+      } else if (keyName ==='d' || keyName === "ArrowRight") {
+        this.piece.handleMovement(1)
+        this.dtLastLateralMove = performance.now()
+      }
     }
+  }
+    // if (keyName === 'a' || keyName === "ArrowLeft") {
+    //   this.piece.handleMovement(-1)
+    //   this.dtLastLateralMove = performance.now()
+    // } else if (keyName ==='d' || keyName === "ArrowRight") {
+    //   this.piece.handleMovement(1)
+    //   this.dtLastLateralMove = performance.now()
+    // } else 
 
+  downMovementControls(event:any, piece:Piece) {
+    const keyName = event.key;
+    if (keyName === 's' || keyName === "ArrowDown") {
+        this.downMoveFreqency = 0
+    } else {
+      this.downMoveFreqency = this.downFrequency
+    } 
+  }
+
+  downMovementRelease(event:any, piece:Piece) {
+    const keyName = event.key;
+    if (keyName === 's' || keyName === "ArrowDown") {
+      this.downMoveFreqency = this.downFrequency
+    }
   }
 
   movementControlEvents() {
-    console.log('Adding event listeners')
-    // document.addEventListener('keydown', this.lateralMovementControls)
     document.addEventListener('keydown', (event) => this.lateralMovementControls(event, this.piece))
+    document.addEventListener('keypress', (event) => this.downMovementControls(event, this.piece))
+    document.addEventListener('keyup', (event) => this.downMovementRelease(event, this.piece))
   }
 
   pieceGravity() {
