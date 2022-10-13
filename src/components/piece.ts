@@ -88,7 +88,7 @@ export class Piece {
         let validSpawn = true;
         this.currentOrientation.forEach((row, r) => {
             row.forEach((cellState, c) => {
-                if (cellState === 1) {
+                if (cellState === 1 && validSpawn) {
                     let x = c + 3
                     let y = r - this.yOffset
                     validSpawn = (this.board.openSpace(x, y) ? true : false)
