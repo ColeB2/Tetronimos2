@@ -86,7 +86,9 @@ class MainGame {
 
   update() {
     this.updateVisuals()
-    this.piece.handleGravity()
+    // this.piece.handleGravity()
+    this.pieceGravity()
+
     // this.piece.handleMovement(1)
     // this.piece.handleMovement(-1, true)
   }
@@ -113,6 +115,13 @@ class MainGame {
     document.addEventListener('keydown', (event) => this.lateralMovementControls(event, this.piece))
   }
 
+  pieceGravity() {
+    if (performance.now() - this.dtLastDownMove > this.downMoveFreqency) {
+      this.piece.handleGravity()
+      this.dtLastDownMove = performance.now()
+    }
+  }
+
   
 
   mainLoop() {
@@ -123,7 +132,7 @@ class MainGame {
         const drawStart = timestamp
         const diff = drawStart - self.startTime
   
-        if (diff > 300) {
+        if (diff > 20) {
           // console.log('clearly read', timestamp, self.piece)
           self.update()
           self.updateVisuals()
