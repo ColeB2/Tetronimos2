@@ -39,23 +39,38 @@ export class Board {
             })
         })
     }
-
-    moveRowsDown(rowCleared: number) {
-        for (let r = rowCleared; r<0; r--) {
-            for (let c = 0; c < this.boardState[r].length; c++) {
-                let blockState = this.boardState[r-1][c].state
-                this.boardState[r][c].state = blockState
-            }
-        }
-
-    }
-
     
     openSpace(x:number,y:number) {
         try {
             return this.boardState[y][x].state === 0
         } catch (e) {
             return false;
+        }
+    }
+
+    lineClearCheck(): number[] {
+        let linesToClear: number[] = [];
+        this.boardState.forEach((row, r) => {
+            let filled = row.every((block) => {
+                block.state === 1;
+            })
+            if (filled) {linesToClear.push(r)}
+        })
+        return linesToClear
+    }
+
+    clearLine(rowToBeCleared: number) {
+        this.boardState[rowToBeCleared].forEach((block) => {
+            block.state = 0
+        })
+    }
+
+    moveRowsDown(rowCleared:number) {
+        for (let r = rowCleared; r >= 0; r--){
+            this.boardState[r].forEach((block, b) => {
+                let blockState = this.boardState[r-1][b].state
+                block.state = blockState
+            })
         }
     }
 
