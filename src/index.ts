@@ -111,13 +111,6 @@ class MainGame {
       }
     }
   }
-    // if (keyName === 'a' || keyName === "ArrowLeft") {
-    //   this.piece.handleMovement(-1)
-    //   this.dtLastLateralMove = performance.now()
-    // } else if (keyName ==='d' || keyName === "ArrowRight") {
-    //   this.piece.handleMovement(1)
-    //   this.dtLastLateralMove = performance.now()
-    // } else 
 
   downMovementControls(event:any, piece:Piece) {
     const keyName = event.key;
@@ -126,6 +119,15 @@ class MainGame {
     } else {
       this.downMoveFreqency = this.downFrequency
     } 
+  }
+
+  rotationMovementControls(event:any, piece:Piece) {
+    const keyName = event.key;
+    if (keyName === 'q' || keyName === "7") {
+      this.piece.handleMovement(-1, true)
+    } else if (keyName ==='e' || keyName === "9") {
+    this.piece.handleMovement(1, true)
+    }
   }
 
   downMovementRelease(event:any, piece:Piece) {
@@ -137,8 +139,9 @@ class MainGame {
 
   movementControlEvents() {
     document.addEventListener('keydown', (event) => this.lateralMovementControls(event, this.piece))
-    document.addEventListener('keypress', (event) => this.downMovementControls(event, this.piece))
+    document.addEventListener('keydown', (event) => this.downMovementControls(event, this.piece))
     document.addEventListener('keyup', (event) => this.downMovementRelease(event, this.piece))
+    document.addEventListener('keydown', (event) => this.rotationMovementControls(event, this.piece))
   }
 
   pieceGravity() {
