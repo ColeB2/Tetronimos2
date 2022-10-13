@@ -89,6 +89,8 @@ class MainGame {
     // this.piece.handleGravity()
     this.pieceGravity()
 
+    this.gameLogic()
+
     // this.piece.handleMovement(1)
     // this.piece.handleMovement(-1, true)
   }
@@ -148,6 +150,29 @@ class MainGame {
     if (performance.now() - this.dtLastDownMove > this.downMoveFreqency) {
       this.piece.handleGravity()
       this.dtLastDownMove = performance.now()
+    }
+  }
+
+  gameLogic() {
+    if (this.piece.landed) {
+      let a = this.board.lineClearCheck()
+      console.log(a)
+      //Handle line clear stuff.
+
+      this.piece = this.nextPiece;
+      //update piece stats
+      this.piece.spawnPiece();
+      this.downMoveFreqency = this.downFrequency; //reset gravity to level gravity
+      this.nextPiece = new Piece( 
+        this.shapeList[Math.floor(Math.random()*this.shapeList.length)],
+        this.board
+      )
+
+      //Game Over Check
+      //Handle Game over
+
+      this.piece.landed = false;
+
     }
   }
 
