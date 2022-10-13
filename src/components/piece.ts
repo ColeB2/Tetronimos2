@@ -38,7 +38,7 @@ type PieceObject = {
 export class Piece {
     private orientation: number = 0;
     private currentOrientation: number[][] = [];
-    private landed: boolean = false;
+    public landed: boolean = false;
     private allOrientations: number[][][];
     private pieceMap: Block[][] = [];
     public xOffset: number = 0;
@@ -245,8 +245,9 @@ export class Piece {
     drawPiece(ctx: any) {
         this.pieceMap.forEach((row, r) => {
             row.forEach((cell, c) => {
-                cell.drawBlock(ctx)
-
+                if (cell.state === 1) {
+                    cell.drawBlock(ctx)
+                }
             })
         })
     }
