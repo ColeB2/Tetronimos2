@@ -231,12 +231,15 @@ export class Piece {
 
     }
     handleMovement(direction: number, rotation=false) {
-        if (rotation && this.checkRotationalCollision(direction)) {
-            this.rotatePiece(direction)
-        } else if (this.checkLateralCollision(direction)) {
-            this.movePiece(direction)
+        if (rotation) {
+            if (this.checkRotationalCollision(direction)) {
+                this.rotatePiece(direction)
+            }
+        } else {
+            if (this.checkLateralCollision(direction)) {
+                this.movePiece(direction)
+            }
         }
-
     }
 
 
