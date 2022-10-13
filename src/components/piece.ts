@@ -23,7 +23,7 @@ export class Block {
 
     }
 
-    public drawBlock(ctx:any) {
+    public drawBlock(ctx:CanvasRenderingContext2D) {
         ctx.fillStyle = (this.state === 1? this.color : 'black');
         ctx.fillRect(this.x*this.width, this.y*this.width, this.width-1, this.width-1);
     }
@@ -245,11 +245,30 @@ export class Piece {
 
 
     //Drawing Methods
-    drawPiece(ctx: any) {
+    drawPiece(ctx: CanvasRenderingContext2D) {
         this.pieceMap.forEach((row, r) => {
             row.forEach((cell, c) => {
                 if (cell.state === 1) {
                     cell.drawBlock(ctx)
+                }
+            })
+        })
+    }
+
+    drawNextBox(ctx: CanvasRenderingContext2D, width: number, height: number) {
+        // let xOffset = 15
+        let yOffset = height/3
+        let pieceSize = this.currentOrientation[0].length
+        let xOffset = (pieceSize === 3 ? 30 : 15)
+        ctx.fillStyle = "white";
+        ctx.font = "30px Arial";
+        ctx.fillText("Next:", 10, 50);
+
+        this.currentOrientation.forEach((row, r) => {
+            row.forEach((cell, c) => {
+                if (cell === 1) {
+                    ctx.fillStyle = this.color
+                    ctx.fillRect(c*30 + xOffset, r*30 + yOffset, 29,29)
                 }
             })
         })

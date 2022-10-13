@@ -37,6 +37,12 @@ body {
   border: solid 1px black;
 }
 
+#nextBox {
+	display: block;
+	margin: 2rem auto;
+	border: solid 1px black;
+}
+
 #button-container {
 	width: 100%;
 	text-align: center;

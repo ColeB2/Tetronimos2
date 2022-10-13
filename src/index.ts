@@ -16,7 +16,11 @@ const SPEED = [
 class MainGame {
   public cellWidth: number;
   public canvas: HTMLCanvasElement;
-  public ctx: CanvasRenderingContext2DSettings;
+  public ctx: CanvasRenderingContext2D;
+
+  public nextBoxCanvas: HTMLCanvasElement;
+  public nextBoxCtx: CanvasRenderingContext2D;
+
   public board: Board;
   
   public pieceCount: Object = {'O':0,'I':0, 'S':0,'Z':0,'J':0,'L':0, 'T':0};
@@ -41,7 +45,11 @@ class MainGame {
   constructor() {
     this.cellWidth = 50;
     this.canvas = document.getElementById('canvas') as HTMLCanvasElement
-    this.ctx = this.canvas.getContext('2d') as CanvasRenderingContext2DSettings
+    this.ctx = this.canvas.getContext('2d') as CanvasRenderingContext2D
+
+    this.nextBoxCanvas = document.getElementById('nextBox') as HTMLCanvasElement
+    this.nextBoxCtx = this.nextBoxCanvas.getContext('2d') as CanvasRenderingContext2D;
+
     this.board = new Board(10,20,'black', [])
     this.piece = new Piece( 
       this.shapeList[Math.floor(Math.random()*this.shapeList.length)],
@@ -75,7 +83,10 @@ class MainGame {
 
   initializeGame() {
     this.board.createBlankBoard()
-    
+
+    this.nextBoxCtx.fillStyle = 'black';
+    this.nextBoxCtx.fillRect(0,0,this.nextBoxCanvas.width,this.nextBoxCanvas.height)
+    this.nextPiece.drawNextBox(this.nextBoxCtx, this.nextBoxCanvas.width, this.nextBoxCanvas.height)
   
     this.piece.spawnPiece()
 
@@ -156,7 +167,7 @@ class MainGame {
   gameLogic() {
     if (this.piece.landed) {
       let a = this.board.lineClearCheck()
-      console.log(a)
+      // console.log(a)
       //Handle line clear stuff.
 
       this.piece = this.nextPiece;
@@ -167,6 +178,9 @@ class MainGame {
         this.shapeList[Math.floor(Math.random()*this.shapeList.length)],
         this.board
       )
+      this.nextBoxCtx.fillStyle = 'black';
+      this.nextBoxCtx.fillRect(0,0,this.nextBoxCanvas.width,this.nextBoxCanvas.height)
+      this.nextPiece.drawNextBox(this.nextBoxCtx, this.nextBoxCanvas.width, this.nextBoxCanvas.height)
 
       //Game Over Check
       //Handle Game over
@@ -202,113 +216,9 @@ class MainGame {
     
   }
 }
-const board = new Board(10, 20, 'black', [])
-const piece = new Piece(tetronimoPieces[2], board)
-piece.createPiece()
-// piece.spawnPiece()
-// console.log(piece)
+
 const mg = new MainGame()
 mg.mainLoop()
-
-
-//GLOBAL VARIABLES
-// interface myGlobalVariables {
-//     [key: string]: any
-//   }
-// var myGlobal: myGlobalVariables = {};
-// myGlobal.cellWidth = 50;
-// myGlobal.canvas = document.getElementById('canvas') as HTMLCanvasElement;
-// myGlobal.ctx = myGlobal.canvas.getContext('2d')
-
-// myGlobal.isRunning = true;
-// myGlobal.startTime = performance.now();
-
-
-
-
-// const board = new Board(10, 20, 'black', [])
-// board.createBlankBoard()
-// // board.boardState[5][5].color = 'blue'
-// // board.boardState[5][5].state = 1
-// board.drawBoard(myGlobal.ctx)
-
-// console.log(board)
-// console.log(board.boardState[5][5].color,board.boardState[5][6].color)
-
-// const piece = new Piece(tetronimoPieces[2], board)
-
-// piece.createPiece()
-// // piece.spawnPiece()
-// console.log(piece)
-// board.drawBoard(myGlobal.ctx)
-// piece.drawPiece(myGlobal.ctx)
-
-// // function run() {
-// //   for (let i=0;i<15;i++){
-// //     piece.handleGravity()
-// //     board.drawBoard(myGlobal.ctx)
-// //     piece.drawPiece(myGlobal.ctx)
-// //     // setTimeout(run, 1000)
-// //   }
-// // }
-// // run()
-// // const piece2 = new Piece(tetronimoPieces[4], board)
-// // piece2.rotatePiece(1)
-// // piece2.movePiece(-1)
-// // piece2.movePiece(-1)
-// // piece2.createPiece()
-// // for (let i=0;i<15;i++){
-// //   piece2.handleGravity()
-// //   board.drawBoard(myGlobal.ctx)
-// //   piece2.drawPiece(myGlobal.ctx)
-// //   // setTimeout(run, 1000)
-// // }
-
-// function mainLoop() {
-//   function main(timestamp: DOMHighResTimeStamp) {
-//     if (myGlobal.isRunning) {
-//       const drawStart = timestamp
-//       const diff = drawStart - myGlobal.startTime
-
-//       if (diff > 1000) {
-//         piece.handleGravity()
-//         // piece.rotatePiece(1)
-//         // piece.movePiece(-1)
-//         piece.handleMovement(1)
-//         piece.handleMovement(-1, true)
-//         board.drawBoard(myGlobal.ctx)
-//         piece.drawPiece(myGlobal.ctx)
-//         myGlobal.startTime = performance.now()
-
-//       }
-      
-//       window.requestAnimationFrame(main)
-//     }
-//   }
-//   window.requestAnimationFrame(main)
-// }
-
-// function mainLoop1(timestamp: DOMHighResTimeStamp) {
-//   if (myGlobal.isRunning) {
-//     const drawStart = timestamp
-//     const diff = drawStart - myGlobal.startTime
-
-//     if (diff > 1000) {
-//       piece.handleGravity()
-//       // piece.rotatePiece(1)
-//       // piece.movePiece(-1)
-//       piece.handleMovement(1)
-//       piece.handleMovement(-1, true)
-//       board.drawBoard(myGlobal.ctx)
-//       piece.drawPiece(myGlobal.ctx)
-//       myGlobal.startTime = performance.now()
-
-//     }
-    
-//     window.requestAnimationFrame(mainLoop1)
-//   }
-// }
-// mainLoop1(performance.now())
 
 
 
