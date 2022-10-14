@@ -41,6 +41,7 @@ class MainGame {
   public downMoveFreqency: number;
 
   public level: number;
+  public score: number;
 
   constructor() {
     this.cellWidth = 50;
@@ -70,6 +71,7 @@ class MainGame {
     this.dtLastDownMove = performance.now()
 
     this.level = 0;
+    this.score = 0;
 
     this.downFrequency = SPEED[this.level]
     this.downMoveFreqency = this.downFrequency
@@ -87,7 +89,8 @@ class MainGame {
     this.nextBoxCtx.fillStyle = 'black';
     this.nextBoxCtx.fillRect(0,0,this.nextBoxCanvas.width,this.nextBoxCanvas.height)
     this.nextPiece.drawNextBox(this.nextBoxCtx, this.nextBoxCanvas.width, this.nextBoxCanvas.height)
-  
+
+
     this.piece.spawnPiece()
 
     this.board.drawBoard(this.ctx)
@@ -97,13 +100,8 @@ class MainGame {
 
   update() {
     this.updateVisuals()
-    // this.piece.handleGravity()
     this.pieceGravity()
-
     this.gameLogic()
-
-    // this.piece.handleMovement(1)
-    // this.piece.handleMovement(-1, true)
   }
 
   updateVisuals() {
@@ -164,6 +162,26 @@ class MainGame {
     }
   }
 
+  handleLineScore(numberOfLinesToClear: number) {
+    let multiplier = 40
+    switch (numberOfLinesToClear) {
+      case 1:
+        multiplier = 40
+        break
+      case 2:
+        multiplier = 100
+        break
+      case 3:
+        multiplier = 300
+        break
+      case 4:
+        multiplier = 1200
+        break
+    }
+    this.score += multiplier * (this.level + 1)
+
+  }
+
   handleLineClear(rowsToClear: number[]) {
     rowsToClear.forEach((row) => {
       this.board.clearLine(row)
@@ -174,9 +192,12 @@ class MainGame {
 
   gameLogic() {
     if (this.piece.landed) {
-      let a = this.board.lineClearCheck()
-      if (a) {
-        this.handleLineClear(a)
+      let linesToClear = this.board.lineClearCheck()
+      if (linesToClear.length !== 0) {
+        console.log(linesToClear)
+        this.handleLineScore(linesToClear.length)
+        this.handleLineClear(linesToClear)
+        console.log(this.score)
 
       }
       //Handle line clear stuff.
