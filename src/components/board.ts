@@ -32,7 +32,7 @@ export class Board {
         })
     }
 
-    private resetBoard(): void {
+    public resetBoard(): void {
         this.boardState.forEach((row, r) => {
             row.forEach((cell, c) => {
                 cell.state = 0

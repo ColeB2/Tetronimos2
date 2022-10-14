@@ -43,6 +43,7 @@ export class Piece {
     private pieceMap: Block[][] = [];
     public xOffset: number = 0;
     public yOffset: number = 0;
+    public validSpawn: boolean;
 
     name: string;
     color: string;
@@ -55,6 +56,7 @@ export class Piece {
         this.currentOrientation = this.allOrientations[this.orientation]
         this.board = boardObject
         this.setSpawnOffset()
+        this.validSpawn = true;
     }
 
     createPiece() {
@@ -104,6 +106,7 @@ export class Piece {
         if (validSpawn) {
             this.createPiece()
         } else {
+            this.validSpawn = false;
             return false;
         }
     } 

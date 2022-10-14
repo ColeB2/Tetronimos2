@@ -189,19 +189,42 @@ class MainGame {
     })
 
   }
+  gameOverCheck() {
+    if (this.piece.validSpawn === false) {
+      this.gameOver = true;
+    }
+  }
+
+  handleGameOver() {
+    this.board.resetBoard()
+    this.piece = new Piece( 
+      this.shapeList[Math.floor(Math.random()*this.shapeList.length)],
+      this.board
+    )
+    //ResetPiece State/ update piece stats
+    this.nextPiece = new Piece( 
+      this.shapeList[Math.floor(Math.random()*this.shapeList.length)],
+      this.board
+    )
+    this.piece.spawnPiece()
+    this.level = 0
+    this.score = 0
+    this.downFrequency = SPEED[this.level]
+    this.gameOver = false;
+
+  }
 
   gameLogic() {
     if (this.piece.landed) {
+      //Line Clearing/Scoring
       let linesToClear = this.board.lineClearCheck()
       if (linesToClear.length !== 0) {
-        console.log(linesToClear)
         this.handleLineScore(linesToClear.length)
         this.handleLineClear(linesToClear)
         console.log(this.score)
-
       }
-      //Handle line clear stuff.
 
+      //Piece Handling
       this.piece = this.nextPiece;
       //update piece stats
       this.piece.spawnPiece();
@@ -216,7 +239,10 @@ class MainGame {
 
       //Game Over Check
       //Handle Game over
-
+      this.gameOverCheck()
+      if (this.gameOver) {
+        this.handleGameOver()
+      }
       this.piece.landed = false;
 
     }
