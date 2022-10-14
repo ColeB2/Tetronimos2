@@ -51,8 +51,9 @@ export class Board {
     lineClearCheck(): number[] {
         let linesToClear: number[] = [];
         this.boardState.forEach((row, r) => {
-            let filled = row.every((block) => {
-                block.state === 1;
+            let filled = true;
+            row.forEach((block, b) => {
+                if (block.state === 0) {filled = false}
             })
             if (filled) {linesToClear.push(r)}
         })
@@ -66,7 +67,7 @@ export class Board {
     }
 
     moveRowsDown(rowCleared:number) {
-        for (let r = rowCleared; r >= 0; r--){
+        for (let r = rowCleared; r > 0; r--){
             this.boardState[r].forEach((block, b) => {
                 let blockState = this.boardState[r-1][b].state
                 block.state = blockState

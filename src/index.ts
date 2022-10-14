@@ -164,10 +164,21 @@ class MainGame {
     }
   }
 
+  handleLineClear(rowsToClear: number[]) {
+    rowsToClear.forEach((row) => {
+      this.board.clearLine(row)
+      this.board.moveRowsDown(row)
+    })
+
+  }
+
   gameLogic() {
     if (this.piece.landed) {
       let a = this.board.lineClearCheck()
-      // console.log(a)
+      if (a) {
+        this.handleLineClear(a)
+
+      }
       //Handle line clear stuff.
 
       this.piece = this.nextPiece;
