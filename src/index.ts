@@ -1,5 +1,5 @@
 import { Board } from './components/board';
-import { Piece } from './components/piece';
+import { Piece, PieceObject } from './components/piece';
 import { tetronimoPieces } from './components/tetronimo';
 
 // const SPEED = {0:800, 1:717, 2:633, 3:550, 4:467, 5:383, 6:300, 7:217, 8:133, 9:150,
@@ -20,6 +20,9 @@ class MainGame {
 
   public nextBoxCanvas: HTMLCanvasElement;
   public nextBoxCtx: CanvasRenderingContext2D;
+
+  public statsBoxCanvas: HTMLCanvasElement;
+  public statsBoxCtx: CanvasRenderingContext2D;
 
   public board: Board;
   
@@ -50,6 +53,9 @@ class MainGame {
 
     this.nextBoxCanvas = document.getElementById('nextBox') as HTMLCanvasElement
     this.nextBoxCtx = this.nextBoxCanvas.getContext('2d') as CanvasRenderingContext2D;
+
+    this.statsBoxCanvas = document.getElementById('statBox') as HTMLCanvasElement
+    this.statsBoxCtx = this.statsBoxCanvas.getContext('2d') as CanvasRenderingContext2D;
 
     this.board = new Board(10,20,'black', [])
     this.piece = new Piece( 
@@ -86,9 +92,14 @@ class MainGame {
   initializeGame() {
     this.board.createBlankBoard()
 
-    this.nextBoxCtx.fillStyle = 'black';
-    this.nextBoxCtx.fillRect(0,0,this.nextBoxCanvas.width,this.nextBoxCanvas.height)
-    this.nextPiece.drawNextBox(this.nextBoxCtx, this.nextBoxCanvas.width, this.nextBoxCanvas.height)
+    this.updateNextBox()
+
+    this.statsBoxCtx.fillStyle = 'black';
+    this.statsBoxCtx.fillRect(0, 0, this.statsBoxCanvas.width, this.statsBoxCanvas.height)
+    let pieces = this.createStatePieces()
+    pieces.forEach((piece, p) => {
+      piece.drawStatBox(this.statsBoxCtx, this.statsBoxCanvas.width, this.statsBoxCanvas.height, p)
+    })
 
 
     this.piece.spawnPiece()
@@ -96,6 +107,20 @@ class MainGame {
     this.board.drawBoard(this.ctx)
     this.piece.drawPiece(this.ctx)
 
+  }
+
+  updateNextBox() {
+    this.nextBoxCtx.fillStyle = 'black';
+    this.nextBoxCtx.fillRect(0,0,this.nextBoxCanvas.width,this.nextBoxCanvas.height)
+    this.nextPiece.drawNextBox(this.nextBoxCtx, this.nextBoxCanvas.width, this.nextBoxCanvas.height)
+  }
+
+  createStatePieces(): Piece[] {
+    let statPieces: Piece[] = [];
+    this.shapeList.forEach((piece: PieceObject) => {
+      statPieces.push(new Piece(piece, this.board))
+    })
+    return statPieces
   }
 
   update() {
@@ -233,9 +258,7 @@ class MainGame {
         this.shapeList[Math.floor(Math.random()*this.shapeList.length)],
         this.board
       )
-      this.nextBoxCtx.fillStyle = 'black';
-      this.nextBoxCtx.fillRect(0,0,this.nextBoxCanvas.width,this.nextBoxCanvas.height)
-      this.nextPiece.drawNextBox(this.nextBoxCtx, this.nextBoxCanvas.width, this.nextBoxCanvas.height)
+      this.updateNextBox()
 
       //Game Over Check
       //Handle Game over

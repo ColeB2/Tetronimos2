@@ -29,7 +29,7 @@ export class Block {
     }
 }
 
-type PieceObject = {
+export type PieceObject = {
     name: string,
     pieceMap: number[][][],
     color: string,
@@ -272,6 +272,26 @@ export class Piece {
                 if (cell === 1) {
                     ctx.fillStyle = this.color
                     ctx.fillRect(c*30 + xOffset, r*30 + yOffset, 29,29)
+                }
+            })
+        })
+    }
+
+    drawStatBox(ctx: CanvasRenderingContext2D, width:number, height: number, verticalOffset: number) {
+        
+        let scale = 20
+        let pieceSize = this.currentOrientation[0].length
+        let xOffset = (width - pieceSize*scale) / 2
+        let yOffset = 40 + (verticalOffset * scale * 2.5)
+        this.currentOrientation.forEach((row, r) => {
+            row.forEach((cell, c) => {
+                if (cell === 1) {
+                    ctx.fillStyle = this.color
+                    ctx.fillRect(
+                        c*scale + xOffset,
+                        r*scale + yOffset,
+                        scale-1,
+                        scale-1)
                 }
             })
         })

@@ -43,6 +43,10 @@ body {
 	/* border: solid 1px black; */
 }
 
+#statBox {
+	padding-right: 5px;
+}
+
 .canvas-container {
 	display: flex;
 	justify-content: center;
