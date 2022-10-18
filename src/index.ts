@@ -14,6 +14,14 @@ const SPEED = [
   50, 50, 50, 33, 33, 33,  //16-21
   33, 33, 33, 33, 33, 33, 33, 17] //22-29
 
+const LEVELS = [
+  10, 20, 30, 40, 50,       //0-4
+  60, 70, 80, 90, 100,      //5-9
+  100, 100, 100, 100, 100,  //10-14
+  100, 110, 120, 130, 140,  //15,19
+  150, 160, 170, 180, 190,  //20-24
+  200, 200, 200, 200]       //25-28
+
 class MainGame {
   public cellWidth: number;
   public canvas: HTMLCanvasElement;
@@ -44,7 +52,9 @@ class MainGame {
   public downFrequency: number;
   public downMoveFreqency: number;
 
+  public startLevel: number;
   public level: number;
+  public linesCleared: number;
   public score: number;
 
   constructor() {
@@ -79,7 +89,9 @@ class MainGame {
 
     this.dtLastDownMove = performance.now()
 
+    this.startLevel = 0;
     this.level = 0;
+    this.linesCleared = 0;
     this.score = 0;
 
     this.downFrequency = SPEED[this.level]
@@ -218,20 +230,33 @@ class MainGame {
     }
   }
 
+  handleLevel(): void {
+    console.log(this.level, this.startLevel)
+    if (this.level > this.startLevel) {
+      if (this.linesCleared >= LEVELS[this.startLevel] + (10 * (this.level-this.startLevel))) {
+        this.level += 1
+      }
+
+    } else if (this.linesCleared >= LEVELS[this.startLevel]) {
+      this.level = this.startLevel + 1
+    }
+    
+  }
+
   handleLineScore(numberOfLinesToClear: number) {
     let multiplier = 40
     switch (numberOfLinesToClear) {
       case 1:
-        multiplier = 40
+        multiplier = 40 * (this.level + 1)
         break
       case 2:
-        multiplier = 100
+        multiplier = 100 * (this.level + 1)
         break
       case 3:
-        multiplier = 300
+        multiplier = 300 * (this.level + 1)
         break
       case 4:
-        multiplier = 1200
+        multiplier = 1200 * (this.level + 1)
         break
     }
     this.score += multiplier * (this.level + 1)
@@ -239,6 +264,7 @@ class MainGame {
   }
 
   handleLineClear(rowsToClear: number[]) {
+    this.linesCleared += rowsToClear.length
     rowsToClear.forEach((row) => {
       this.board.clearLine(row)
       this.board.moveRowsDown(row)
@@ -281,6 +307,7 @@ class MainGame {
         this.handleLineClear(linesToClear)
         console.log(this.score)
       }
+      this.handleLevel()
 
       //Piece Handling
       this.piece = this.nextPiece;
@@ -305,7 +332,7 @@ class MainGame {
       this.piece.landed = false;
 
       this.board.printBoard()
-      console.log(this.pieceCount)
+      console.log(this.pieceCount, this.score, this.level, this.linesCleared)
 
     }
   }
