@@ -12,6 +12,17 @@ export class Board {
         this.boardColor = boardColor;
         this.boardState = boardState;
     }
+    
+    public printBoard(): void {
+        console.log("-----Board State-----")
+        this.boardState.forEach((row, r) => {
+            let boardRow: number[] = []
+            row.forEach((cell, c) => {
+                boardRow.push(cell.state)
+            })
+            console.log(boardRow)
+        })
+    }
 
     public createBlankBoard(): void {
         for (let r = 0; r < this.height; r++) {

@@ -281,8 +281,11 @@ export class Piece {
         
         let scale = 20
         let pieceSize = this.currentOrientation[0].length
-        let xOffset = (width - pieceSize*scale) / 2
-        let yOffset = 40 + (verticalOffset * scale * 2.5)
+        let xOffset = (width - pieceSize*scale) / 2 - 20
+        let yOffset = 60 + (verticalOffset * scale * 2.5)
+        if (this.name === "I") {yOffset -= 15}
+        if (this.name === "O") {yOffset -= 5}
+
         this.currentOrientation.forEach((row, r) => {
             row.forEach((cell, c) => {
                 if (cell === 1) {

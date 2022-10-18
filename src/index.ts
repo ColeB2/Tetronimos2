@@ -96,6 +96,9 @@ class MainGame {
 
     this.statsBoxCtx.fillStyle = 'black';
     this.statsBoxCtx.fillRect(0, 0, this.statsBoxCanvas.width, this.statsBoxCanvas.height)
+    
+    this.displayStatText()
+    this.displayStatValues()
     let pieces = this.createStatePieces()
     pieces.forEach((piece, p) => {
       piece.drawStatBox(this.statsBoxCtx, this.statsBoxCanvas.width, this.statsBoxCanvas.height, p)
@@ -107,6 +110,26 @@ class MainGame {
     this.board.drawBoard(this.ctx)
     this.piece.drawPiece(this.ctx)
 
+  }
+
+  displayStatText() {
+    this.statsBoxCtx.fillStyle = "white";
+    this.statsBoxCtx.font = "30px Arial";
+    this.statsBoxCtx.fillText("Stats:", 10, 50);
+  }
+  displayStatValues() {
+    let pieceStats = this.shapeList
+    let x = 95
+    let y = 104
+    this.shapeList.forEach((piece: Piece, p: number) => {
+      this.statsBoxCtx.fillStyle = "white";
+      this.statsBoxCtx.font = "20px Arial";
+      this.statsBoxCtx.fillText(
+        "000",
+        x,
+        y + p*50)
+
+    })
   }
 
   updateNextBox() {
@@ -267,6 +290,8 @@ class MainGame {
         this.handleGameOver()
       }
       this.piece.landed = false;
+
+      this.board.printBoard()
 
     }
   }
