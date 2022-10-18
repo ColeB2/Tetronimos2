@@ -1,6 +1,7 @@
 import { Board } from './components/board';
-import { Piece, PieceObject } from './components/piece';
+import { Piece } from './components/piece';
 import { tetronimoPieces } from './components/tetronimo';
+import type { PieceObject, PieceStats } from './components/types';
 
 // const SPEED = {0:800, 1:717, 2:633, 3:550, 4:467, 5:383, 6:300, 7:217, 8:133, 9:150,
 //   10:83, 11:83, 12:83, 13:67, 14:67, 15:67, 16:50, 17:50, 18:50, 19:33,
@@ -26,7 +27,7 @@ class MainGame {
 
   public board: Board;
   
-  public pieceCount: Object = {'O':0,'I':0, 'S':0,'Z':0,'J':0,'L':0, 'T':0};
+  public pieceCount: PieceStats;
   public shapeList: any = tetronimoPieces;
   public piece: Piece;
   public nextPiece: Piece;
@@ -58,6 +59,8 @@ class MainGame {
     this.statsBoxCtx = this.statsBoxCanvas.getContext('2d') as CanvasRenderingContext2D;
 
     this.board = new Board(10,20,'black', [])
+    this.pieceCount = {'O':0, 'I':0, 'S':0, 'Z':0, 'J':0, 'L':0, 'T':0};
+
     this.piece = new Piece( 
       this.shapeList[Math.floor(Math.random()*this.shapeList.length)],
       this.board
@@ -93,23 +96,17 @@ class MainGame {
     this.board.createBlankBoard()
 
     this.updateNextBox()
-
-    this.statsBoxCtx.fillStyle = 'black';
-    this.statsBoxCtx.fillRect(0, 0, this.statsBoxCanvas.width, this.statsBoxCanvas.height)
-    
-    this.displayStatText()
-    this.displayStatValues()
-    let pieces = this.createStatePieces()
-    pieces.forEach((piece, p) => {
-      piece.drawStatBox(this.statsBoxCtx, this.statsBoxCanvas.width, this.statsBoxCanvas.height, p)
-    })
-
-
+    this.displayStats()
+  
     this.piece.spawnPiece()
 
     this.board.drawBoard(this.ctx)
     this.piece.drawPiece(this.ctx)
 
+  }
+
+  updatePieceStats(pieceName: string): void {
+    this.pieceCount[pieceName] += 1
   }
 
   displayStatText() {
@@ -125,11 +122,22 @@ class MainGame {
       this.statsBoxCtx.fillStyle = "white";
       this.statsBoxCtx.font = "20px Arial";
       this.statsBoxCtx.fillText(
-        "000",
+        this.pieceCount[piece.name].toString(),
         x,
         y + p*50)
 
     })
+  }
+
+  displayStats() {
+    this.statsBoxCtx.fillStyle = 'black';
+    this.statsBoxCtx.fillRect(0, 0, this.statsBoxCanvas.width, this.statsBoxCanvas.height)
+    let pieces = this.createStatePieces()
+    pieces.forEach((piece, p) => {
+      piece.drawStatBox(this.statsBoxCtx, this.statsBoxCanvas.width, this.statsBoxCanvas.height, p)
+    })
+    this.displayStatText()
+    this.displayStatValues()
   }
 
   updateNextBox() {
@@ -249,7 +257,9 @@ class MainGame {
       this.shapeList[Math.floor(Math.random()*this.shapeList.length)],
       this.board
     )
-    //ResetPiece State/ update piece stats
+    this.pieceCount = {'O':0, 'I':0, 'S':0, 'Z':0, 'J':0, 'L':0, 'T':0};
+    this.displayStats()
+    
     this.nextPiece = new Piece( 
       this.shapeList[Math.floor(Math.random()*this.shapeList.length)],
       this.board
@@ -275,6 +285,9 @@ class MainGame {
       //Piece Handling
       this.piece = this.nextPiece;
       //update piece stats
+      this.updatePieceStats(this.piece.name)
+      this.displayStats()
+
       this.piece.spawnPiece();
       this.downMoveFreqency = this.downFrequency; //reset gravity to level gravity
       this.nextPiece = new Piece( 
@@ -292,6 +305,7 @@ class MainGame {
       this.piece.landed = false;
 
       this.board.printBoard()
+      console.log(this.pieceCount)
 
     }
   }

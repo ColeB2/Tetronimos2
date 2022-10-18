@@ -1,4 +1,5 @@
 import type { Board } from "./board";
+import type { PieceObject } from "./types";
 
 
 
@@ -29,11 +30,7 @@ export class Block {
     }
 }
 
-export type PieceObject = {
-    name: string,
-    pieceMap: number[][][],
-    color: string,
-}
+
 
 export class Piece {
     private orientation: number = 0;
