@@ -109,6 +109,7 @@ class MainGame {
 
     this.updateNextBox()
     this.displayStats()
+
   
     this.piece.spawnPiece()
 

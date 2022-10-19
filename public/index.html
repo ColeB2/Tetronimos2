@@ -10,9 +10,30 @@
   <body>
     <h1>Tetronimos!</h1>
     <div class="canvas-container">
-      <canvas id="statBox" width="149" height="509"></canvas>  
+      <div class="line-score">
+        <h1 class="white">LINES -</h1>
+      </div>
+    </div>
+
+    <div class="canvas-container">
+      <div class="left-hud">
+        <canvas id="statBox" width="149" height="509"></canvas>
+      </div>
+      
+      
+      
       <canvas id="canvas" width="299" height="599"></canvas>
-      <canvas id="nextBox" width="149" height="179"></canvas>  
+
+      <div class="right-hud">
+        <div class="score">
+          <h1 class="white">SCORE</h1>
+        </div>
+        <canvas id="nextBox" width="149" height="179"></canvas>
+        <div class="level">
+          <h1 class="white">LEVEL</h1>
+        </div>
+      </div>
+      
     </div>
     
     <noscript>You need to enable JavaScript to run this app.</noscript>
