@@ -275,7 +275,7 @@ class MainGame {
     this.linesCleared += rowsToClear.length
     this.linesValue.innerHTML = this.linesCleared.toString()
     rowsToClear.forEach((row) => {
-      this.board.clearLine(row)
+      this.board.clearRow(row)
       this.board.moveRowsDown(row)
     })
 

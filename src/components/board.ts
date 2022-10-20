@@ -68,12 +68,14 @@ export class Board {
                     filled = false
                 }
             })
-            if (filled) {linesToClear.push(r)}
+            if (filled === true) {
+                linesToClear.push(r)
+            }
         })
         return linesToClear
     }
 
-    clearLine(rowToBeCleared: number) {
+    clearRow(rowToBeCleared: number) {
         this.boardState[rowToBeCleared].forEach((block) => {
             block.state = 0
         })
