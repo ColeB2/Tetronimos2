@@ -55,6 +55,7 @@ class MainGame {
   public startLevel: number;
   public level: number;
   public linesCleared: number;
+  public linesValue: HTMLElement;
   public score: number;
 
   constructor() {
@@ -93,6 +94,8 @@ class MainGame {
     this.level = 0;
     this.linesCleared = 0;
     this.score = 0;
+
+    this.linesValue = document.getElementById("linesValue") as HTMLElement;
 
     this.downFrequency = SPEED[this.level]
     this.downMoveFreqency = this.downFrequency
@@ -266,6 +269,7 @@ class MainGame {
 
   handleLineClear(rowsToClear: number[]) {
     this.linesCleared += rowsToClear.length
+    this.linesValue.innerHTML = this.linesCleared.toString()
     rowsToClear.forEach((row) => {
       this.board.clearLine(row)
       this.board.moveRowsDown(row)
@@ -295,6 +299,7 @@ class MainGame {
     this.level = 0
     this.score = 0
     this.linesCleared = 0
+    this.linesValue.innerHTML = this.linesCleared.toString()
     this.downFrequency = SPEED[this.level]
     this.gameOver = false;
 
