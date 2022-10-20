@@ -261,8 +261,8 @@ export class Piece {
         let pieceSize = this.currentOrientation[0].length
         let xOffset = (pieceSize === 3 ? 30 : 15)
         ctx.fillStyle = "white";
-        ctx.font = "30px Arial";
-        ctx.fillText("Next:", 10, 50);
+        ctx.font = "bold 30px Arial";
+        ctx.fillText("NEXT", 10, 30);
 
         this.currentOrientation.forEach((row, r) => {
             row.forEach((cell, c) => {

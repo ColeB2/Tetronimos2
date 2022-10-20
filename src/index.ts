@@ -124,8 +124,8 @@ class MainGame {
 
   displayStatText() {
     this.statsBoxCtx.fillStyle = "white";
-    this.statsBoxCtx.font = "30px Arial";
-    this.statsBoxCtx.fillText("Stats:", 10, 50);
+    this.statsBoxCtx.font = "bold 25px Arial";
+    this.statsBoxCtx.fillText("STATISTICS", 5, 25);
   }
   displayStatValues() {
     let pieceStats = this.shapeList
@@ -294,6 +294,7 @@ class MainGame {
     this.piece.spawnPiece()
     this.level = 0
     this.score = 0
+    this.linesCleared = 0
     this.downFrequency = SPEED[this.level]
     this.gameOver = false;
 
@@ -317,6 +318,7 @@ class MainGame {
       this.displayStats()
 
       this.piece.spawnPiece();
+      this.downFrequency = SPEED[this.level]
       this.downMoveFreqency = this.downFrequency; //reset gravity to level gravity
       this.nextPiece = new Piece( 
         this.shapeList[Math.floor(Math.random()*this.shapeList.length)],
