@@ -9,8 +9,6 @@ export class Block {
     width: number;
     color: string;
     state: number;
-    // xCoord: number;
-    // yCoord: number;
 
     constructor(x: number, y: number, width: number, color: string, state: number) {
         this.x = x;
@@ -20,9 +18,6 @@ export class Block {
         this.state = state;
     }
 
-    private getXCoordinate() {
-
-    }
 
     public drawBlock(ctx:CanvasRenderingContext2D) {
         ctx.fillStyle = (this.state === 1? this.color : 'black');
@@ -146,8 +141,8 @@ export class Piece {
 
     lockPiece() {
         this.landed = true;
-        this.pieceMap.forEach((row, r) => {
-            row.forEach((cell, c) => {
+        this.pieceMap.forEach((row) => {
+            row.forEach((cell) => {
                 if (cell.state === 1) {
                     this.board.boardState[cell.y][cell.x].state = 1
                     this.board.boardState[cell.y][cell.x].color = this.color
@@ -202,11 +197,9 @@ export class Piece {
     }
 
     checkLateralCollision(direction:number): boolean {
-        // console.log('Checking lateral collision')
         let movePiece = true;
-        this.pieceMap.forEach((row, r) => {
-            row.forEach((cell, c) => {
-                // console.log(cell.state, direction, this.board.openSpace(cell.x+direction, cell.y), cell.x)
+        this.pieceMap.forEach((row) => {
+            row.forEach((cell) => {
                 if (cell.state === 1) {
                     if (movePiece && this.board.openSpace(cell.x+direction, cell.y) && 
                         cell.x >= 0 && cell.x < this.board.width) {
@@ -218,13 +211,12 @@ export class Piece {
                 }
             })
         })
-        // console.log(movePiece)
         return movePiece
     }
 
     movePiece(direction: number) {
-        this.pieceMap.forEach((row, r) => {
-            row.forEach((cell, c) => {
+        this.pieceMap.forEach((row) => {
+            row.forEach((cell) => {
                 cell.x = cell.x + direction
             })
         })
@@ -246,8 +238,8 @@ export class Piece {
 
     //Drawing Methods
     drawPiece(ctx: CanvasRenderingContext2D) {
-        this.pieceMap.forEach((row, r) => {
-            row.forEach((cell, c) => {
+        this.pieceMap.forEach((row) => {
+            row.forEach((cell) => {
                 if (cell.state === 1) {
                     cell.drawBlock(ctx)
                 }
@@ -256,7 +248,6 @@ export class Piece {
     }
 
     drawNextBox(ctx: CanvasRenderingContext2D, width: number, height: number) {
-        // let xOffset = 15
         let yOffset = height/3
         let pieceSize = this.currentOrientation[0].length
         let xOffset = (pieceSize === 3 ? 30 : 15)

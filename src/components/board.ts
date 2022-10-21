@@ -15,10 +15,10 @@ export class Board {
     
     public printBoard(): void {
         console.log("-----Board State-----")
-        this.boardState.forEach((row, r) => {
+        this.boardState.forEach((row) => {
             let boardRow: number[] = []
-            row.forEach((cell, c) => {
-                boardRow.push(cell.state)
+            row.forEach((block) => {
+                boardRow.push(block.state)
             })
             console.log(boardRow)
         })
@@ -44,9 +44,9 @@ export class Board {
     }
 
     public resetBoard(): void {
-        this.boardState.forEach((row, r) => {
-            row.forEach((cell, c) => {
-                cell.state = 0
+        this.boardState.forEach((row) => {
+            row.forEach((block) => {
+                block.state = 0
             })
         })
     }
@@ -84,8 +84,9 @@ export class Board {
     moveRowsDown(rowCleared:number) {
         for (let r = rowCleared; r > 0; r--){
             this.boardState[r].forEach((block, b) => {
-                let blockState = this.boardState[r-1][b].state
-                block.state = blockState
+                let aboveBlock = this.boardState[r-1][b]
+                block.state = aboveBlock.state
+                block.color = aboveBlock.color
             })
         }
     }
