@@ -1,4 +1,7 @@
-import {Block} from './piece';
+import { Block } from "./block";
+
+
+
 
 export class Board {
     width: number;
