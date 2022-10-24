@@ -2,12 +2,6 @@
 
 
 
-
-
-test('test example', () => {
-    expect(3).toBe(3)
-})
-
 const Block = require('../src/components/block.ts')
 
 describe("Block", () => {
