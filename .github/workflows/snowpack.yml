@@ -1,4 +1,4 @@
-name: Snowpack
+name: Snowpack CD
 on:
   push:
     branches: [ master ]
