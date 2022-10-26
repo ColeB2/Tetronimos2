@@ -6,7 +6,6 @@ const Block = require('../src/components/block.ts')
 
 describe("Block", () => {
     const block = new Block.Block(0,0,30,"red", 1);
-    console.log(block)
 
     test("Block.x", () => {
         expect(block.x).toBe(0);
