@@ -21,7 +21,7 @@ export class Block {
     this.state = state;
   }
 
-  public drawBlock(ctx: CanvasRenderingContext2D) {
+  public drawBlock(ctx: CanvasRenderingContext2D): void {
     ctx.fillStyle = this.state === 1 ? this.color : 'black';
     ctx.fillRect(
       this.x * this.width,
