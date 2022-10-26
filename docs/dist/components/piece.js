@@ -52,7 +52,6 @@ export class Piece {
       this.createPiece();
     } else {
       this.validSpawn = false;
-      return false;
     }
   }
   handleGravity() {

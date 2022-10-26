@@ -26,7 +26,7 @@ export class Piece {
     this.validSpawn = true;
   }
 
-  createPiece() {
+  private createPiece() {
     for (let r = 0; r < this.currentOrientation.length; r++) {
       this.pieceMap.push(new Array());
       for (let c = 0; c < this.currentOrientation[0].length; c++) {
@@ -42,7 +42,7 @@ export class Piece {
     }
   }
 
-  setSpawnOffset(): void {
+  private setSpawnOffset(): void {
     //Sets x/yOffset to spawn piece properly above board.
     this.xOffset = 7 - this.currentOrientation[0].length;
     for (let r = 0; r < this.currentOrientation.length; r++) {
@@ -53,8 +53,8 @@ export class Piece {
     }
   }
 
-  checkSpawnValidity(): boolean {
-    let validSpawn = true;
+  private checkSpawnValidity(): boolean {
+    let validSpawn: boolean = true;
     this.currentOrientation.forEach((row, r) => {
       row.forEach((cellState, c) => {
         if (cellState === 1 && validSpawn) {
@@ -67,18 +67,17 @@ export class Piece {
     return validSpawn;
   }
 
-  spawnPiece() {
-    let validSpawn = this.checkSpawnValidity();
+  public spawnPiece(): void {
+    let validSpawn: boolean = this.checkSpawnValidity();
     if (validSpawn) {
       this.createPiece();
     } else {
       this.validSpawn = false;
-      return false;
     }
   }
 
   // Downward movement
-  handleGravity() {
+  public handleGravity(): void {
     if (this.checkCollision()) {
       this.movePieceDown();
     } else {
@@ -86,8 +85,8 @@ export class Piece {
     }
   }
 
-  checkCollision() {
-    let movePiece = true;
+  private checkCollision(): boolean {
+    let movePiece: boolean = true;
     this.pieceMap.forEach((row, r) => {
       row.forEach((cell, c) => {
         if (cell.state === 1) {
@@ -108,7 +107,7 @@ export class Piece {
     return movePiece;
   }
 
-  movePieceDown() {
+  private movePieceDown(): void {
     this.pieceMap.forEach((row, r) => {
       row.forEach((cell, c) => {
         cell.y += 1;
@@ -116,7 +115,7 @@ export class Piece {
     });
   }
 
-  lockPiece() {
+  private lockPiece(): void {
     this.landed = true;
     this.pieceMap.forEach((row) => {
       row.forEach((cell) => {
@@ -129,8 +128,8 @@ export class Piece {
   }
 
   //Lateral and Rotational Movements
-  checkRotationalCollision(rotationalDirection: number) {
-    let rotatePiece = true;
+  private checkRotationalCollision(rotationalDirection: number): boolean {
+    let rotatePiece: boolean = true;
     this.pieceMap.forEach((row, r) => {
       row.forEach((cell, c) => {
         let rotation =
@@ -153,9 +152,9 @@ export class Piece {
     return rotatePiece;
   }
 
-  nextRotationState(rotationalDirection: number) {
+  private nextRotationState(rotationalDirection: number): number {
     // Calculates next index value next rotational will be @.
-    let nextState = this.orientation + rotationalDirection;
+    let nextState: number = this.orientation + rotationalDirection;
     if (nextState >= this.allOrientations.length) {
       nextState = 0;
     } else if (nextState < 0) {
@@ -164,7 +163,7 @@ export class Piece {
     return nextState;
   }
 
-  rotatePiece(rotationalDirection: number) {
+  private rotatePiece(rotationalDirection: number): void {
     this.orientation = this.nextRotationState(rotationalDirection);
     this.currentOrientation = this.allOrientations[this.orientation];
 
@@ -175,8 +174,8 @@ export class Piece {
     });
   }
 
-  checkLateralCollision(direction: number): boolean {
-    let movePiece = true;
+  private checkLateralCollision(direction: number): boolean {
+    let movePiece: boolean = true;
     this.pieceMap.forEach((row) => {
       row.forEach((cell) => {
         if (cell.state === 1) {
@@ -196,14 +195,15 @@ export class Piece {
     return movePiece;
   }
 
-  movePiece(direction: number) {
+  private movePiece(direction: number) {
     this.pieceMap.forEach((row) => {
       row.forEach((cell) => {
         cell.x = cell.x + direction;
       });
     });
   }
-  handleMovement(direction: number, rotation = false) {
+
+  public handleMovement(direction: number, rotation = false): void {
     if (rotation) {
       if (this.checkRotationalCollision(direction)) {
         this.rotatePiece(direction);
@@ -216,7 +216,7 @@ export class Piece {
   }
 
   //Drawing Methods
-  drawPiece(ctx: CanvasRenderingContext2D) {
+  public drawPiece(ctx: CanvasRenderingContext2D): void {
     this.pieceMap.forEach((row) => {
       row.forEach((cell) => {
         if (cell.state === 1) {
@@ -226,7 +226,11 @@ export class Piece {
     });
   }
 
-  drawNextBox(ctx: CanvasRenderingContext2D, width: number, height: number) {
+  public drawNextBox(
+    ctx: CanvasRenderingContext2D,
+    width: number,
+    height: number,
+  ): void {
     let yOffset = height / 3;
     let pieceSize = this.currentOrientation[0].length;
     let xOffset = pieceSize === 3 ? 30 : 15;
@@ -244,12 +248,12 @@ export class Piece {
     });
   }
 
-  drawStatBox(
+  public drawStatBox(
     ctx: CanvasRenderingContext2D,
     width: number,
     height: number,
     verticalOffset: number,
-  ) {
+  ): void {
     let scale = 20;
     let pieceSize = this.currentOrientation[0].length;
     let xOffset = (width - pieceSize * scale) / 2 - 20;

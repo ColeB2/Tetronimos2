@@ -1,11 +1,11 @@
 // Block Class --> Represents a Square on a tetris board/cell on a grid.
 
 export class Block {
-  x: number;
-  y: number;
-  width: number;
-  color: string;
-  state: number;
+  public x: number;
+  public y: number;
+  public width: number;
+  public color: string;
+  public state: number;
 
   constructor(
     x: number,
@@ -21,7 +21,7 @@ export class Block {
     this.state = state;
   }
 
-  public drawBlock(ctx: CanvasRenderingContext2D) {
+  public drawBlock(ctx: CanvasRenderingContext2D): void {
     ctx.fillStyle = this.state === 1 ? this.color : 'black';
     ctx.fillRect(
       this.x * this.width,
