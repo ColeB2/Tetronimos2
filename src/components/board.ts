@@ -1,10 +1,10 @@
 import { Block } from './block';
 
 export class Board {
-  width: number;
-  height: number;
-  boardColor: string;
-  boardState: Block[][];
+  public width: number;
+  public height: number;
+  public boardColor: string;
+  public boardState: Block[][];
 
   constructor(
     width: number,
@@ -54,7 +54,7 @@ export class Board {
     });
   }
 
-  openSpace(x: number, y: number) {
+  public openSpace(x: number, y: number): boolean {
     try {
       return this.boardState[y][x].state === 0;
     } catch (e) {
@@ -62,7 +62,7 @@ export class Board {
     }
   }
 
-  lineClearCheck(): number[] {
+  public lineClearCheck(): number[] {
     let linesToClear: number[] = [];
     this.boardState.forEach((row, r) => {
       let filled = true;
@@ -78,13 +78,13 @@ export class Board {
     return linesToClear;
   }
 
-  clearRow(rowToBeCleared: number) {
+  public clearRow(rowToBeCleared: number): void {
     this.boardState[rowToBeCleared].forEach((block) => {
       block.state = 0;
     });
   }
 
-  moveRowsDown(rowCleared: number) {
+  public moveRowsDown(rowCleared: number): void {
     for (let r = rowCleared; r > 0; r--) {
       this.boardState[r].forEach((block, b) => {
         let aboveBlock = this.boardState[r - 1][b];
