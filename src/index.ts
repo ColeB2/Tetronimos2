@@ -2,7 +2,7 @@ import { Board } from './components/board';
 import { Piece } from './components/piece';
 import { tetronimoPieces } from './components/tetronimo';
 import type { PieceObject, PieceStats } from './components/types';
-import { SPEED, LEVELS } from './components/constants';
+import { SPEED, LEVELS } from './constants/constants';
 
 // const SPEED = {0:800, 1:717, 2:633, 3:550, 4:467, 5:383, 6:300, 7:217, 8:133, 9:150,
 //   10:83, 11:83, 12:83, 13:67, 14:67, 15:67, 16:50, 17:50, 18:50, 19:33,
