@@ -1,7 +1,7 @@
 import {Board} from "./components/board.js";
 import {Piece} from "./components/piece.js";
 import {tetronimoPieces} from "./components/tetronimo.js";
-import {SPEED, LEVELS} from "./components/constants.js";
+import {SPEED, LEVELS} from "./constants/constants.js";
 class MainGame {
   constructor() {
     this.shapeList = tetronimoPieces;

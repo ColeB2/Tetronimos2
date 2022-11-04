@@ -1,4 +1,5 @@
 import {Block} from "./block.js";
+import {BLOCK_WIDTH} from "../constants/constants.js";
 export class Piece {
   constructor(vitals, boardObject) {
     this.orientation = 0;
@@ -7,6 +8,7 @@ export class Piece {
     this.pieceMap = [];
     this.xOffset = 0;
     this.yOffset = 0;
+    this.xOffsetSpawnValue = 7;
     this.name = vitals.name;
     this.color = vitals.color;
     this.allOrientations = vitals.pieceMap;
@@ -19,13 +21,14 @@ export class Piece {
     for (let r = 0; r < this.currentOrientation.length; r++) {
       this.pieceMap.push(new Array());
       for (let c = 0; c < this.currentOrientation[0].length; c++) {
-        const block = new Block(c + this.xOffset, r - this.yOffset, 30, this.color, this.currentOrientation[r][c]);
+        const block = new Block(c + this.xOffset, r - this.yOffset, BLOCK_WIDTH, this.color, this.currentOrientation[r][c]);
         this.pieceMap[r].push(block);
       }
     }
   }
   setSpawnOffset() {
-    this.xOffset = 7 - this.currentOrientation[0].length;
+    let pieceWidth = this.currentOrientation[0].length;
+    this.xOffset = this.xOffsetSpawnValue - pieceWidth;
     for (let r = 0; r < this.currentOrientation.length; r++) {
       if (this.currentOrientation[r].includes(1)) {
         this.yOffset = r;
@@ -35,10 +38,11 @@ export class Piece {
   }
   checkSpawnValidity() {
     let validSpawn = true;
+    let spawn_xoffset = 3;
     this.currentOrientation.forEach((row, r) => {
       row.forEach((cellState, c) => {
         if (cellState === 1 && validSpawn) {
-          let x = c + 3;
+          let x = c + spawn_xoffset;
           let y = r - this.yOffset;
           validSpawn = this.board.openSpace(x, y) ? true : false;
         }
@@ -63,12 +67,13 @@ export class Piece {
   }
   checkCollision() {
     let movePiece = true;
+    let y_block_below = 1;
     this.pieceMap.forEach((row, r) => {
       row.forEach((cell, c) => {
         if (cell.state === 1) {
-          if (cell.y + 1 > this.board.height) {
+          if (cell.y + y_block_below > this.board.height) {
             movePiece = false;
-          } else if (this.board.openSpace(cell.x, cell.y + 1) && cell.y < this.board.height && movePiece !== false) {
+          } else if (this.board.openSpace(cell.x, cell.y + y_block_below) && cell.y < this.board.height && movePiece !== false) {
             movePiece = true;
           } else {
             movePiece = false;
