@@ -44,7 +44,7 @@ describe("Piece", () => {
     })
 
     //Piece Specific Relations. sPiece
-    const sPieceWidth = 4 //sPiece Width = s_piece.currentOrientation[0].length
+    const sPieceWidth = 3 //sPiece Width = s_piece.currentOrientation[0].length
     const sPieceXOffset = s_piece.xOffsetSpawnValue - sPieceWidth
     test("piece.xOffset starts initial value of 0", () => {
         expect(s_piece.xOffset).toBe(sPieceXOffset)
