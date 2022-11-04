@@ -47,7 +47,7 @@ export class Piece {
 
   private setSpawnOffset(): void {
     //Sets x/yOffset to spawn piece properly above board.
-    let pieceWidth = this.currentOrientation[0].length
+    let pieceWidth = this.currentOrientation[0].length;
     this.xOffset = this.xOffsetSpawnValue - pieceWidth;
     //Calculate yOffset
     for (let r = 0; r < this.currentOrientation.length; r++) {

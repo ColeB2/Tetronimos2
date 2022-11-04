@@ -63,5 +63,4 @@ export const LEVELS = [
   200,
 ]; //25-28
 
-
 export const BLOCK_WIDTH: number = 30;
