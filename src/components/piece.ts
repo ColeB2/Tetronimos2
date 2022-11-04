@@ -1,6 +1,7 @@
 import type { Board } from './board';
 import type { PieceObject } from './types';
 import { Block } from './block';
+import { BLOCK_WIDTH } from '../constants/constants';
 
 export class Piece {
   private orientation: number = 0;
@@ -11,6 +12,8 @@ export class Piece {
   public xOffset: number = 0;
   public yOffset: number = 0;
   public validSpawn: boolean;
+
+  private xOffsetSpawnValue: number = 7;
 
   name: string;
   color: string;
@@ -33,7 +36,7 @@ export class Piece {
         const block = new Block(
           c + this.xOffset,
           r - this.yOffset,
-          30,
+          BLOCK_WIDTH,
           this.color,
           this.currentOrientation[r][c],
         );
@@ -44,7 +47,9 @@ export class Piece {
 
   private setSpawnOffset(): void {
     //Sets x/yOffset to spawn piece properly above board.
-    this.xOffset = 7 - this.currentOrientation[0].length;
+    let pieceWidth = this.currentOrientation[0].length
+    this.xOffset = this.xOffsetSpawnValue - pieceWidth;
+    //Calculate yOffset
     for (let r = 0; r < this.currentOrientation.length; r++) {
       if (this.currentOrientation[r].includes(1)) {
         this.yOffset = r;
