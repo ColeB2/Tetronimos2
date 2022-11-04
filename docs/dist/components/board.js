@@ -1,4 +1,5 @@
 import {Block} from "./block.js";
+import {BLOCK_WIDTH} from "../constants/constants.js";
 export class Board {
   constructor(width, height, boardColor, boardState) {
     this.width = width;
@@ -20,7 +21,7 @@ export class Board {
     for (let r = 0; r < this.height; r++) {
       this.boardState.push(new Array());
       for (let c = 0; c < this.width; c++) {
-        const block = new Block(c, r, 30, "black", 0);
+        const block = new Block(c, r, BLOCK_WIDTH, "black", 0);
         this.boardState[r].push(block);
       }
     }
