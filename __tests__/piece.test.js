@@ -23,6 +23,10 @@ describe("Piece", () => {
     // test("Create Piece", () => {
     //     expect(  
     // })
+    test("Piece.orientation", () => {
+        expect(piece.orientation).toBe(0)
+    })
+
     test("Piece.landed", () => {
         expect(piece.landed).toBe(false);
     })

@@ -55,10 +55,11 @@ export class Piece {
 
   private checkSpawnValidity(): boolean {
     let validSpawn: boolean = true;
+    let spawn_xoffset: number = 3;
     this.currentOrientation.forEach((row, r) => {
       row.forEach((cellState, c) => {
         if (cellState === 1 && validSpawn) {
-          let x = c + 3;
+          let x = c + spawn_xoffset;
           let y = r - this.yOffset;
           validSpawn = this.board.openSpace(x, y) ? true : false;
         }
@@ -87,13 +88,14 @@ export class Piece {
 
   private checkCollision(): boolean {
     let movePiece: boolean = true;
+    let y_block_below: number = 1;
     this.pieceMap.forEach((row, r) => {
       row.forEach((cell, c) => {
         if (cell.state === 1) {
-          if (cell.y + 1 > this.board.height) {
+          if (cell.y + y_block_below > this.board.height) {
             movePiece = false;
           } else if (
-            this.board.openSpace(cell.x, cell.y + 1) &&
+            this.board.openSpace(cell.x, cell.y + y_block_below) &&
             cell.y < this.board.height &&
             movePiece !== false
           ) {
