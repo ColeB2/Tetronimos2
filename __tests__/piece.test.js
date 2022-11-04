@@ -11,51 +11,42 @@ const { boardMock } = jest.createMockFromModule("../src/components/board.ts")
 
 describe("Piece", () => {
 
-    const piece_selected = Vitals.tetronimoPieces[2] // s piece
-    const s_piece = new Piece.Piece(piece_selected, boardMock);
+    const piece_selected = Vitals.tetronimoPieces[0] // O piece
+    const piece = new Piece.Piece(piece_selected, boardMock);
 
 
     test("Piece.name properly set", () => {
-        expect(s_piece.name).toBe(piece_selected.name)
+        expect(piece.name).toBe(piece_selected.name)
     })
 
     test("Piece.color properly set", () => {
-        expect(s_piece.color).toBe(piece_selected.color)
+        expect(piece.color).toBe(piece_selected.color)
     })
 
     test("Piece.allOrientations properly set", () => {
-        expect(s_piece.allOrientations).toBe(piece_selected.pieceMap)
+        expect(piece.allOrientations).toBe(piece_selected.pieceMap)
     })
 
     test("Piece.orientation starts initial value of 0", () => {
-        expect(s_piece.orientation).toBe(0)
+        expect(piece.orientation).toBe(0)
     })
 
     test("Piece.currentOrientation properly set", () => {
-        expect(s_piece.currentOrientation).toBe(s_piece.allOrientations[s_piece.orientation])
+        expect(piece.currentOrientation).toBe(
+            piece.allOrientations[piece.orientation]
+            )
     })
 
     test("Piece.board points to proper boardObject", () => {
-        expect(s_piece.board).toBe(boardMock)
+        expect(piece.board).toBe(boardMock)
     })
 
     test("Piece.landed properly deaults to false", () => {
-        expect(s_piece.landed).toBe(false);
+        expect(piece.landed).toBe(false);
     })
 
     test ("Piece.valid spawn deaults to true", () => {
-        expect(s_piece.validSpawn).toBe(true);
-    })
-
-    //Piece Specific Tests. sPiece
-    const sPieceWidth = 3 //sPiece Width = s_piece.currentOrientation[0].length
-    const sPieceXOffset = s_piece.xOffsetSpawnValue - sPieceWidth
-    test("piece.xOffset starts initial value of 0", () => {
-        expect(s_piece.xOffset).toBe(sPieceXOffset)
-    })
-
-    test("piece.yOffset starts initial value of 0", () => {
-        expect(s_piece.yOffset).toBe(1)
+        expect(piece.validSpawn).toBe(true);
     })
 
     
@@ -92,6 +83,25 @@ describe("I Piece", () => {
     //IPiece --> 4 high, spawns horizontally, with pieces on 2 (0Indexed)
     test("IPiece.yOffset set to correct y value", () => {
         expect(IPiece.yOffset).toBe(2)
+    })
+
+})
+
+
+describe("S Piece", () => {
+    const pieceSelected = Vitals.tetronimoPieces[2] // S piece
+    const SPiece = new Piece.Piece(pieceSelected, boardMock);
+
+    //Piece Specific Tests. SPiece
+    const SPieceWidth = 3 //SPiece Width = SPiece.currentOrientation[0].length
+    const SPieceXOffset = SPiece.xOffsetSpawnValue - SPieceWidth
+    test("SPiece.xOffset set to correct x value", () => {
+        expect(SPiece.xOffset).toBe(SPieceXOffset)
+    })
+
+    //Piece spawns 3 high, starting on 1 (0 indexed)
+    test("SPiece.yOffset set to correct y value", () => {
+        expect(SPiece.yOffset).toBe(1)
     })
 
 })
