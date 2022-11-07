@@ -37,9 +37,10 @@ class MainGame {
   }
   initializeGame() {
     this.board.createBlankBoard();
+    this.piece.spawnPiece();
+    this.updatePieceStats(this.piece.name);
     this.updateNextBox();
     this.displayStats();
-    this.piece.spawnPiece();
     this.board.drawBoard(this.ctx);
     this.piece.drawPiece(this.ctx);
   }
@@ -139,7 +140,6 @@ class MainGame {
     }
   }
   handleLevel() {
-    console.log(this.level, this.startLevel);
     if (this.level > this.startLevel) {
       if (this.linesCleared >= LEVELS[this.startLevel] + 10 * (this.level - this.startLevel)) {
         this.level += 1;
@@ -147,6 +147,7 @@ class MainGame {
     } else if (this.linesCleared >= LEVELS[this.startLevel]) {
       this.level = this.startLevel + 1;
     }
+    this.levelValue.innerHTML = this.level.toString();
   }
   handleLineScore(numberOfLinesToClear) {
     let multiplier = 40;
@@ -183,15 +184,15 @@ class MainGame {
     this.board.resetBoard();
     this.piece = new Piece(this.shapeList[Math.floor(Math.random() * this.shapeList.length)], this.board);
     this.pieceCount = {O: 0, I: 0, S: 0, Z: 0, J: 0, L: 0, T: 0};
+    this.updatePieceStats(this.piece.name);
     this.displayStats();
-    this.nextPiece = new Piece(this.shapeList[Math.floor(Math.random() * this.shapeList.length)], this.board);
     this.piece.spawnPiece();
-    this.level = 0;
+    this.level = this.startLevel;
     this.score = 0;
     this.linesCleared = 0;
     this.linesValue.innerHTML = this.linesCleared.toString();
     this.scoreValue.innerHTML = this.score.toString();
-    this.linesValue.innerHTML = this.linesCleared.toString();
+    this.levelValue.innerHTML = this.level.toString();
     this.downFrequency = SPEED[this.level];
     this.gameOver = false;
   }
@@ -203,7 +204,6 @@ class MainGame {
         this.handleLineClear(linesToClear);
         this.scoreValue.innerHTML = this.score.toString();
         this.linesValue.innerHTML = this.linesCleared.toString();
-        console.log(this.score);
       }
       this.handleLevel();
       this.piece = this.nextPiece;
@@ -220,7 +220,6 @@ class MainGame {
       }
       this.piece.landed = false;
       this.board.printBoard();
-      console.log(this.pieceCount, this.score, this.level, this.linesCleared);
     }
   }
   mainLoop() {
