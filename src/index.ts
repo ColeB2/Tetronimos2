@@ -257,17 +257,18 @@ class MainGame {
   }
 
   handleLevel(): void {
-    console.log(this.level, this.startLevel);
     if (this.level > this.startLevel) {
       if (
         this.linesCleared >=
         LEVELS[this.startLevel] + 10 * (this.level - this.startLevel)
       ) {
         this.level += 1;
+        
       }
     } else if (this.linesCleared >= LEVELS[this.startLevel]) {
       this.level = this.startLevel + 1;
     }
+    this.levelValue.innerHTML = this.level.toString()
   }
 
   handleLineScore(numberOfLinesToClear: number) {
@@ -322,7 +323,7 @@ class MainGame {
     this.linesCleared = 0;
     this.linesValue.innerHTML = this.linesCleared.toString();
     this.scoreValue.innerHTML = this.score.toString();
-    this.linesValue.innerHTML = this.linesCleared.toString();
+    this.levelValue.innerHTML = this.level.toString();
     this.downFrequency = SPEED[this.level];
     this.gameOver = false;
   }
@@ -336,7 +337,6 @@ class MainGame {
         this.handleLineClear(linesToClear);
         this.scoreValue.innerHTML = this.score.toString();
         this.linesValue.innerHTML = this.linesCleared.toString();
-        console.log(this.score);
       }
       this.handleLevel();
 
@@ -364,7 +364,6 @@ class MainGame {
       this.piece.landed = false;
 
       this.board.printBoard();
-      console.log(this.pieceCount, this.score, this.level, this.linesCleared);
     }
   }
 
