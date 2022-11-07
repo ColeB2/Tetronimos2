@@ -4,9 +4,6 @@ import { tetronimoPieces } from './components/tetronimo';
 import type { PieceObject, PieceStats } from './components/types';
 import { SPEED, LEVELS } from './constants/constants';
 
-// const SPEED = {0:800, 1:717, 2:633, 3:550, 4:467, 5:383, 6:300, 7:217, 8:133, 9:150,
-//   10:83, 11:83, 12:83, 13:67, 14:67, 15:67, 16:50, 17:50, 18:50, 19:33,
-//   20:33, 21:33, 22:33, 23:33, 24:33, 25:33, 26:33, 27:33, 28:33, 29:17}
 
 class MainGame {
   public cellWidth: number;
@@ -104,11 +101,11 @@ class MainGame {
 
   initializeGame() {
     this.board.createBlankBoard();
+    this.piece.spawnPiece();
+    this.updatePieceStats(this.piece.name);
 
     this.updateNextBox();
     this.displayStats();
-
-    this.piece.spawnPiece();
 
     this.board.drawBoard(this.ctx);
     this.piece.drawPiece(this.ctx);
@@ -257,7 +254,6 @@ class MainGame {
   }
 
   handleLevel(): void {
-    console.log(this.level, this.startLevel);
     if (this.level > this.startLevel) {
       if (
         this.linesCleared >=
@@ -268,6 +264,7 @@ class MainGame {
     } else if (this.linesCleared >= LEVELS[this.startLevel]) {
       this.level = this.startLevel + 1;
     }
+    this.levelValue.innerHTML = this.level.toString();
   }
 
   handleLineScore(numberOfLinesToClear: number) {
@@ -310,19 +307,16 @@ class MainGame {
       this.board,
     );
     this.pieceCount = { O: 0, I: 0, S: 0, Z: 0, J: 0, L: 0, T: 0 };
+    this.updatePieceStats(this.piece.name);
     this.displayStats();
 
-    this.nextPiece = new Piece(
-      this.shapeList[Math.floor(Math.random() * this.shapeList.length)],
-      this.board,
-    );
     this.piece.spawnPiece();
-    this.level = 0;
+    this.level = this.startLevel;
     this.score = 0;
     this.linesCleared = 0;
     this.linesValue.innerHTML = this.linesCleared.toString();
     this.scoreValue.innerHTML = this.score.toString();
-    this.linesValue.innerHTML = this.linesCleared.toString();
+    this.levelValue.innerHTML = this.level.toString();
     this.downFrequency = SPEED[this.level];
     this.gameOver = false;
   }
@@ -336,13 +330,11 @@ class MainGame {
         this.handleLineClear(linesToClear);
         this.scoreValue.innerHTML = this.score.toString();
         this.linesValue.innerHTML = this.linesCleared.toString();
-        console.log(this.score);
       }
       this.handleLevel();
 
       //Piece Handling
       this.piece = this.nextPiece;
-      //update piece stats
       this.updatePieceStats(this.piece.name);
       this.displayStats();
 
@@ -355,7 +347,6 @@ class MainGame {
       );
       this.updateNextBox();
 
-      //Game Over Check
       //Handle Game over
       this.gameOverCheck();
       if (this.gameOver) {
@@ -364,7 +355,6 @@ class MainGame {
       this.piece.landed = false;
 
       this.board.printBoard();
-      console.log(this.pieceCount, this.score, this.level, this.linesCleared);
     }
   }
 
@@ -376,7 +366,6 @@ class MainGame {
         const diff = drawStart - self.startTime;
 
         if (diff > 20) {
-          // console.log('clearly read', timestamp, self.piece)
           self.update();
           self.updateVisuals();
           self.startTime = performance.now();
