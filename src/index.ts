@@ -4,9 +4,6 @@ import { tetronimoPieces } from './components/tetronimo';
 import type { PieceObject, PieceStats } from './components/types';
 import { SPEED, LEVELS } from './constants/constants';
 
-// const SPEED = {0:800, 1:717, 2:633, 3:550, 4:467, 5:383, 6:300, 7:217, 8:133, 9:150,
-//   10:83, 11:83, 12:83, 13:67, 14:67, 15:67, 16:50, 17:50, 18:50, 19:33,
-//   20:33, 21:33, 22:33, 23:33, 24:33, 25:33, 26:33, 27:33, 28:33, 29:17}
 
 class MainGame {
   public cellWidth: number;
@@ -263,12 +260,11 @@ class MainGame {
         LEVELS[this.startLevel] + 10 * (this.level - this.startLevel)
       ) {
         this.level += 1;
-        
       }
     } else if (this.linesCleared >= LEVELS[this.startLevel]) {
       this.level = this.startLevel + 1;
     }
-    this.levelValue.innerHTML = this.level.toString()
+    this.levelValue.innerHTML = this.level.toString();
   }
 
   handleLineScore(numberOfLinesToClear: number) {
@@ -339,7 +335,6 @@ class MainGame {
 
       //Piece Handling
       this.piece = this.nextPiece;
-      //update piece stats
       this.updatePieceStats(this.piece.name);
       this.displayStats();
 
@@ -352,7 +347,6 @@ class MainGame {
       );
       this.updateNextBox();
 
-      //Game Over Check
       //Handle Game over
       this.gameOverCheck();
       if (this.gameOver) {
@@ -372,7 +366,6 @@ class MainGame {
         const diff = drawStart - self.startTime;
 
         if (diff > 20) {
-          // console.log('clearly read', timestamp, self.piece)
           self.update();
           self.updateVisuals();
           self.startTime = performance.now();
