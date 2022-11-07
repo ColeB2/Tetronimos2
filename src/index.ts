@@ -104,11 +104,11 @@ class MainGame {
 
   initializeGame() {
     this.board.createBlankBoard();
+    this.piece.spawnPiece();
+    this.updatePieceStats(this.piece.name);
 
     this.updateNextBox();
     this.displayStats();
-
-    this.piece.spawnPiece();
 
     this.board.drawBoard(this.ctx);
     this.piece.drawPiece(this.ctx);
@@ -311,14 +311,11 @@ class MainGame {
       this.board,
     );
     this.pieceCount = { O: 0, I: 0, S: 0, Z: 0, J: 0, L: 0, T: 0 };
+    this.updatePieceStats(this.piece.name);
     this.displayStats();
 
-    this.nextPiece = new Piece(
-      this.shapeList[Math.floor(Math.random() * this.shapeList.length)],
-      this.board,
-    );
     this.piece.spawnPiece();
-    this.level = 0;
+    this.level = this.startLevel;
     this.score = 0;
     this.linesCleared = 0;
     this.linesValue.innerHTML = this.linesCleared.toString();
